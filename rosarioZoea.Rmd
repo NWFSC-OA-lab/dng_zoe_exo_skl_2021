@@ -1,0 +1,26 @@
+---
+title: "rosarioZoea"
+author: "Danielle Perez"
+date: "8/23/2021"
+output: html_document
+---
+
+```{r read in csv file}
+rosarioZoea <- read.csv("C:/Users/Danielle.Perez/Downloads/dgn_zoe_exoskel_carechart - DailyCareChart.csv", skip = 3)
+```
+
+```{r clean up data (this is definitely the hard way to do it...)}
+#Remove unnecessary stuff
+rosarioZoea <- rosarioZoea[-c(19, 38, 57), -c(3,5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33)]
+
+#Rename columns (this is definitely the hard way...)
+colnames(rosarioZoea)[3:17]<-c("9 June","10 June","11 June","12 June", "13 June", "14 June", "15 June", "16 June", "17 June", "18 June", "19 June", 
+                               "20 June", "21 June", "22 June", "23 June")
+```
+
+```{r How many died before the end of the experiment?}
+#How many died before the end of the experiment?
+idxD = rosarioZoea[,c(3:17)] == "D"
+countD = sum(idxD,na.rm=TRUE)
+```
+
