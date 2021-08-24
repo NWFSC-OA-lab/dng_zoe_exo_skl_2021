@@ -5,33 +5,62 @@ date: "8/23/2021"
 output: html_document
 ---
 
+#Read in the CSV file of daily zoea care
 ```{r read in csv file}
-rosarioZoea <- read.csv("C:/Users/Danielle.Perez/Downloads/dgn_zoe_exoskel_carechart - DailyCareChart.csv", skip = 3)
+rosarioZoea <- read.csv("C:/Users/Danielle.Perez/Documents/R/dng_zoe_exo_skl_2021/raw data/dgn_zoe_exoskel_carechart - DailyCareChart.csv", skip = 3)
 ```
 
-```{r clean up data (this is definitely the hard way to do it...)}
-#Remove unnecessary stuff
-rosarioZoea <- rosarioZoea[-c(19, 38, 57), -c(3,5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33)]
+#Clean up the data
+```{r clean up data, if you want}
+
+#This is definitely the hard way to do it, and probably not really necessary
+#But it makes it look a little nicer
+
+#Remove unnecessary rows and columns
+rosarioZoea <- rosarioZoea[-c(19, 38, 57), -c(4,6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34)]
 
 #Rename columns (this is definitely the hard way...)
-colnames(rosarioZoea)[3:17]<-c("9 June","10 June","11 June","12 June", "13 June", "14 June", "15 June", "16 June", "17 June", "18 June", "19 June", 
-                               "20 June", "21 June", "22 June", "23 June")
+colnames(rosarioZoea)[4:18]<-c("9 June","10 June","11 June","12 June", "13 June", "14 June", "15 June", "16 June", 
+                               "17 June", "18 June", "19 June", "20 June", "21 June", "22 June", "23 June")
 ```
 
-```{r How many died before the end of the experiment?}
-#How many died before the end of the experiment?
-idxD = rosarioZoea[,c(3:17)] == "D"
-countD = sum(idxD,na.rm=TRUE)
+#Subset the crab species
+```{r Subset}
+
+#Subset dungeness crabs from pea crabs
+rosarioDun <- subset(rosarioZoea, crabType=="Dungeness")
+rosarioPea <- subset(rosarioZoea, crabType=="Pea")
 ```
 
-```{r How many didn't die, but didn't molt before the end of the experiment}
-# How many molted?
-idxM = t(t(rowSums(rosarioZoea[,3:17] == "M",na.rm=TRUE)))
-# Didn't molt or die
-idxNoMD = !idxD & !idxM
-countNoMD = sum(idxNoMD,na.rm=TRUE)
+#Dungeness data
+```{r Death/molt breakdown}
 
+#How many Dungeness crabs died before the end of the experiment?
+idxDDun <-  rowSums(rosarioDun[,c(4:18)] =="D",na.rm=TRUE)
+countDDun <-  sum(idxDDun,na.rm=TRUE)
 
+#How many Dungeness crabs molted before the end of the experiment?
+idxMDun <-  rowSums(rosarioDun[,c(4:18)] == "M",na.rm=TRUE)
+countMDun <-  sum(idxMDun,na.rm=TRUE)
+
+#How many Dungeness didn't die or molt before the end of the experiment?
+idxNoMDDun <-  !idxDDun & !idxMDun
+countNoMDDun <-  sum(idxNoMDDun,na.rm=TRUE)
 ```
+
+#Pea crabs
+```{r Death/molt breakdown}
+
+#How many Pea crabs died before the end of the experiment?
+idxDPea <-  rowSums(rosarioPea[,c(4:18)] =="D",na.rm=TRUE)
+countDPea <-  sum(idxDPea,na.rm=TRUE)
+
+#How many Pea crabs molted before the end of the experiment?
+idxMPea <-  rowSums(rosarioPea[,c(4:18)] == "M",na.rm=TRUE)
+countMPea <-  sum(idxMPea,na.rm=TRUE)
+
+#How many Pea didn't die or molt before the end of the experiment?
+idxNoMDPea <-  !idxDPea & !idxMPea
+countNoMDPea <- sum(idxNoMDPea,na.rm=TRUE)
 ```
 
