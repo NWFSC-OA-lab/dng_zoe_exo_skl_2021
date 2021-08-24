@@ -24,3 +24,14 @@ idxD = rosarioZoea[,c(3:17)] == "D"
 countD = sum(idxD,na.rm=TRUE)
 ```
 
+```{r How many didn't die, but didn't molt before the end of the experiment}
+# How many molted?
+idxM = t(t(rowSums(rosarioZoea[,3:17] == "M",na.rm=TRUE)))
+# Didn't molt or die
+idxNoMD = !idxD & !idxM
+countNoMD = sum(idxNoMD,na.rm=TRUE)
+
+
+```
+```
+
