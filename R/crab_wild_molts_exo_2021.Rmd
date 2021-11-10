@@ -118,19 +118,47 @@ d_muk_meg_care_raw <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_carecha
 #rename care file variables
 names(d_muk_meg_care_raw) <- new_name_care(names(d_muk_meg_care_raw))
 
+
 # read clean up the crab care data frame and add a "fate" column to indicate id crab died or molted.
 d_muk_meg_care <- d_muk_meg_care_raw %>%
   filter(if_any(everything(), ~ !is.na(.))) %>%
   filter(crabID != "N/A") %>%
   select_if(function(x){!all(is.na(x))}) %>%
-  mutate(fate = NA_character_,
+  select(crabID, starts_with(c("6", "7"))) %>%
+  mutate(fate = NA_character_, 
+    fate = if_else(if_any(everything(), ~ . %in% c("M, R", 
+                                                   "Molt, Remove", 
+                                                   "Molt, R (molt dissolve)", 
+                                                   "Molt, Removed",
+                                                   "Molt, R-(molt dissolved)")),"molted", fate),
+    fate = if_else(`6/28` == "meg" & `6/30` == "J", "molted", fate),
     fate = if_else(if_any(everything(), ~ . == "D"),  "dead", fate),
-    fate = if_else(if_any(everything(), ~ . == "M"),  "molted", fate),
-    fate = if_else(if_any(everything(), ~ . == "L"),  "lost", fate),
     fate = if_else(if_any(everything(), ~ . == "R"),  "removed", fate),
     fate = if_else(is.na(fate), "alive_unmolted", fate)) %>%
+  mutate(preserved_juv = if_else(fate == "molted",  TRUE, FALSE)) %>%
+  mutate(preserved_discard = if_else(fate == "molted",  TRUE, FALSE),
+         preserved_discard = if_else(if_any(everything(), ~ . %in% c( "Molt, R (molt dissolve)", 
+                                                  "Molt, R-(molt dissolved)")), FALSE, preserved_discard)) %>%
+  mutate(preserved_meg_end = if_else(`7/14` == "R, removed &preserved",  TRUE, FALSE)) %>%
+  mutate(preserved = case_when(preserved_juv & !preserved_discard ~ "juv_only",
+                               preserved_juv & preserved_discard ~ "juv_and_discard",
+                               preserved_meg_end ~ "meg_end",
+                               TRUE ~ "nothing")) %>%
   {.}
 
+```
+
+```{r muk-meg-care-summary}
+d_muk_meg_care %>%
+  tabyl(fate, preserved) %>%
+  adorn_totals(where = c("row", "col"))
+```
+
+```{r}
+d_muk_meg_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_preservation_2021.csv"))
+
+d_muk_meg_preservation %>%
+  tabyl(lifeStage)
 ```
 
 
