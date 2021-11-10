@@ -106,20 +106,24 @@ d_rosario_preservation %>%
   group_by(crabType,preserve_stage) %>%
   summarise(sum(n_individuals.per.Vial)) %>%
   arrange(crabType, match(preserve_stage, 
-                          c("zoea_start", "zoea_live", "meg_live", "discard_molt", "zoea_end"))) %>%
+                          c("zoea_start", "zoea_live", "meg_live", 
+                            "discard_molt", "zoea_end"))) %>%
   rename("total" = "sum(n_individuals.per.Vial)") %>%
   as.data.frame()
 ```
 
 ```{r muk-meg-read-and-clean}
 
-d_muk_meg_care_raw <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_carechart_2021.csv"), skip = 1)
+d_muk_meg_care_raw <- read_csv(here("data_raw", 
+                                    "dng_meg_exoskel_muk_net_carechart_2021.csv"), skip = 1)
 
 #rename care file variables
 names(d_muk_meg_care_raw) <- new_name_care(names(d_muk_meg_care_raw))
 
 
-# read clean up the crab care data frame and add a "fate" column to indicate id crab died or molted.
+# read clean up the crab care data frame and add a "fate" column to indicate id
+# crab died or molted and "preserved" column to indicate which crab were
+# preserved
 d_muk_meg_care <- d_muk_meg_care_raw %>%
   filter(if_any(everything(), ~ !is.na(.))) %>%
   filter(crabID != "N/A") %>%
@@ -146,19 +150,26 @@ d_muk_meg_care <- d_muk_meg_care_raw %>%
                                TRUE ~ "nothing")) %>%
   {.}
 
+write_csv(d_muk_meg_care, here("data", "d_muk_meg_care_clean.csv"))
+
 ```
 
 ```{r muk-meg-care-summary}
+#summary table based on care file
 d_muk_meg_care %>%
   tabyl(fate, preserved) %>%
   adorn_totals(where = c("row", "col"))
 ```
 
-```{r}
-d_muk_meg_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_preservation_2021.csv"))
+```{r muk-meg-preserve-read-summary}
+#read muk meg preservation file
+d_muk_meg_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_preservation_2021.csv")) %>%
+  filter(!is.na(lifeStage))
 
+#summarize life stages presereved
 d_muk_meg_preservation %>%
-  tabyl(lifeStage)
+  tabyl(lifeStage) %>%
+  adorn_totals()
 ```
 
 
