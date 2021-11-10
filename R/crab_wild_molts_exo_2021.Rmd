@@ -22,7 +22,7 @@ library(janitor)
 library(officedown)
 ```
 
-```{r read-and-clean-rosaio-zoea}
+```{r rosaio-zoea-read-and-clean-collect-care}
 
 #read the status key from the crab care file (first row of file)
 d_rosario_care_key <- read.csv(here("data_raw", "crab_zoea_exoskel_rosario_carechart_2021.csv"),header = FALSE, nrows = 1)[,1] 
@@ -30,16 +30,19 @@ d_rosario_care_key <- read.csv(here("data_raw", "crab_zoea_exoskel_rosario_carec
 #read in the crab care data file data
 d_rosario_care_raw <- read_csv(here("data_raw", "crab_zoea_exoskel_rosario_carechart_2021.csv"), skip = 3) 
 
-#create new variable names for the "By" columns (person who entered data) that they includes the date
-names_d_rosario_care <- names(d_rosario_care_raw)
-new_names_d_rosario_care <- names_d_rosario_care
-for(i in 1:length(names_d_rosario_care)){
-  if(str_starts(names_d_rosario_care[i], "By")){
-    new_names_d_rosario_care[i] <- paste("entered_by_", 
-                                    names_d_rosario_care[i+1], sep = "")
+#funtion to create new variable names for the "By" columns (person who entered
+#data) that they includes the date
+new_name_care <- function(old_names){
+  new_names <- old_names
+  for(i in 1:length(old_names)){
+    if(str_starts(old_names[i], "By")){
+      new_names[i] <- paste("entered_by_", old_names[i+1], sep = "")
+    }
   }
-}
-names(d_rosario_care_raw) <- new_names_d_rosario_care
+  return(new_names)
+} 
+#rename care file variables
+names(d_rosario_care_raw) <- new_name_care(names(d_rosario_care_raw))
 
 # read clean up the crab care data frame and add a "fate" column to indicate id crab died or molted.
 # note that the case_when should work, but there is a bug in if_any (https://github.com/tidyverse/dplyr/issues/5782#)
@@ -69,6 +72,11 @@ d_rosario_collect <- read_csv(here("data_raw", "crab_zoea_exoskel_rosario_collec
 d_rosario <- full_join(d_rosario_care, d_rosario_collect, by = "crabID")
 
 
+
+```
+
+```{r rosaio-zoea-read-and-clean-preserve}
+
 # read and recode the rosario perservation file
 d_rosario_preservation <- read_csv(here("data_raw", "crab_zoea_exoskel_rosario_preservation_2021.csv")) %>%
   mutate(preserve_stage = case_when(preservationDate == "6/9/21" & lifeStage == "zoea" ~ "zoea_start",
@@ -81,20 +89,19 @@ d_rosario_preservation <- read_csv(here("data_raw", "crab_zoea_exoskel_rosario_p
                               species == "C.magister" ~ "Dungeness",
                               TRUE ~ NA_character_)) %>%
   {.}
-
 ```
+
 
 A few question about the data summary below. In Table \@ref(tab:preserve-summary), is the assumption that crabs labeled "Instar" molted to a later stage zoea? In Table \@ref(tab:preserve-summary), a total of 20 discarded molts were preserved but a total only 18 live zoea were preserved (zoea + megalopae) - what happened to the other live crab? In table \@ref(tab:fate-summary), there were 18 molted pea crab and 2 dungeness. However, in Table \@ref(tab:preserve-summary), 20 molts were preserved that were all labeled pea crab. There were also no dungeness preserved as live post-molt
 
-```{r fate-summary-tab, tab.cap = "Summary of the fate of zoea from Rosario (round 1). During the experiment, zoea could 1) die before, 2) molt, in which case both the new stage zoea or megalope and the discarded exoskeleton were preserved in seperate vials, or 3) the zoea could remain alivee and unmolted at the end of the experinment , in which case they were preserved. CrabType is presumed (crabs have not been IDed to species).", tab.id = "fate-summary"}
+```{r rosario-zoea-fate-summary-tab, tab.cap = "Summary of the fate of zoea from Rosario (round 1). During the experiment, zoea could 1) die before, 2) molt, in which case both the new stage zoea or megalope and the discarded exoskeleton were preserved in seperate vials, or 3) the zoea could remain alivee and unmolted at the end of the experinment , in which case they were preserved. CrabType is presumed (crabs have not been IDed to species).", tab.id = "fate-summary"}
 d_rosario_care %>%
   tabyl(crabType, fate) %>%
   adorn_totals(where = c("row", "col")) %>%
   as.data.frame()
 ```
 
-
-```{r preserve-summary, tab.cap = "Preserve sample summary based on preservation csv file. Zoea_start are zoea preserved from the coolers at the beginnig of the experiment - they were never in chambers. Zoea_live and meg_live are crabs preseverd after they molted. It was assumed that the crabs marked Instar in the oringal preservation file molted to a later stage zoea and crabs marked Megalopae molted to megalopae. Discard_molts were the discarded exoskeletons after molting (marked either Molt or zoeaMOLT in the data sheet). Zoea_end are crabs that were alive at the end of the experiment but never molted.", tab.id = "preserve-summary"}
+```{r rosario-zoea-preserve-summary, tab.cap = "Preserve sample summary based on preservation csv file. Zoea_start are zoea preserved from the coolers at the beginnig of the experiment - they were never in chambers. Zoea_live and meg_live are crabs preseverd after they molted. It was assumed that the crabs marked Instar in the oringal preservation file molted to a later stage zoea and crabs marked Megalopae molted to megalopae. Discard_molts were the discarded exoskeletons after molting (marked either Molt or zoeaMOLT in the data sheet). Zoea_end are crabs that were alive at the end of the experiment but never molted.", tab.id = "preserve-summary"}
 d_rosario_preservation %>%
   group_by(crabType,preserve_stage) %>%
   summarise(sum(n_individuals.per.Vial)) %>%
@@ -102,6 +109,28 @@ d_rosario_preservation %>%
                           c("zoea_start", "zoea_live", "meg_live", "discard_molt", "zoea_end"))) %>%
   rename("total" = "sum(n_individuals.per.Vial)") %>%
   as.data.frame()
+```
+
+```{r muk-meg-read-and-clean}
+
+d_muk_meg_care_raw <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_carechart_2021.csv"), skip = 1)
+
+#rename care file variables
+names(d_muk_meg_care_raw) <- new_name_care(names(d_muk_meg_care_raw))
+
+# read clean up the crab care data frame and add a "fate" column to indicate id crab died or molted.
+d_muk_meg_care <- d_muk_meg_care_raw %>%
+  filter(if_any(everything(), ~ !is.na(.))) %>%
+  filter(crabID != "N/A") %>%
+  select_if(function(x){!all(is.na(x))}) %>%
+  mutate(fate = NA_character_,
+    fate = if_else(if_any(everything(), ~ . == "D"),  "dead", fate),
+    fate = if_else(if_any(everything(), ~ . == "M"),  "molted", fate),
+    fate = if_else(if_any(everything(), ~ . == "L"),  "lost", fate),
+    fate = if_else(if_any(everything(), ~ . == "R"),  "removed", fate),
+    fate = if_else(is.na(fate), "alive_unmolted", fate)) %>%
+  {.}
+
 ```
 
 
