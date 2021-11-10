@@ -4,10 +4,14 @@ author: "Danielle Perez"
 date: "8/23/2021"
 output: html_document
 ---
+```{r libraries}
+library(here)
+library(tidyverse)
+```
 
 #Read in the CSV file of daily zoea care
 ```{r read in csv file}
-rosarioZoea <- read.csv("C:/Users/Danielle.Perez/Documents/R/dng_zoe_exo_skl_2021/raw data/dgn_zoe_exoskel_carechart - DailyCareChart.csv", skip = 3)
+rosarioZoea <- read_csv(here("data_raw", "dgn_zoe_exoskel_carechart - DailyCareChart.csv"), skip = 3)
 ```
 
 #Clean up the data
