@@ -20,6 +20,7 @@ library(here)
 library(tidyverse)
 library(janitor)
 library(officedown)
+library(metacsv)
 ```
 
 ```{r rosaio-zoea-read-and-clean-collect-care}
@@ -171,6 +172,58 @@ d_muk_meg_preservation %>%
   tabyl(lifeStage) %>%
   adorn_totals()
 ```
+
+```{r}
+d_coronet_care_raw <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_carechart_2021.csv"), skip = 3)
+#rename care file variables
+names(d_coronet_care_raw) <- new_name_care(names(d_coronet_care_raw))
+
+
+d_coronet_care <- d_coronet_care_raw %>%
+  filter(if_any(everything(), ~ !is.na(.))) %>%
+  filter(str_starts(crabID, "CH")) %>%
+   select_if(function(x){!all(is.na(x))}) %>%
+   select(crabID, starts_with(c("6", "7"))) %>%
+  mutate(fate = NA_character_,
+    fate = if_else(if_any(everything(), ~ str_detect(., "J1_frozen")), "j1_frozen", fate),
+    fate = if_else(if_any(everything(), ~ str_detect(., fixed("J1_EtOH", ignore_case = TRUE))),  "j1_etoh", fate),
+    fate = if_else(if_any(everything(), ~ . == "D"),  "dead", fate),
+    fate = if_else(is.na(fate), "alive_unmolted", fate)) %>%
+  mutate(preserved_juv = case_when(str_detect(fate, "frozen") ~ "frozen",
+                                   str_detect(fate, "etoh") ~ "etoh",
+                                   TRUE ~ NA_character_)) %>%
+  mutate(preserved_discard = if_else(!is.na(preserved_juv) & 
+                                       !str_detect(`7/12`, "dissolved"),
+                                     preserved_juv, NA_character_)) %>%
+  mutate(preserved_meg_end = if_else(fate == "alive_unmolted", TRUE, FALSE)) %>%
+  mutate(preserved = case_when(!is.na(preserved_juv) & !is.na(preserved_discard) ~
+                               paste("both_juv_and_discard_", preserved_juv, sep = "" ),
+                               !is.na(preserved_juv) & is.na(preserved_discard) ~
+                                paste("juv_only_", preserved_juv, sep = "" ),
+                               preserved_meg_end ~"meg_end",
+                               TRUE ~ "nothing")) %>%
+  {.}
+```
+
+```{r}
+d_coronet_care %>%
+  tabyl(fate, preserved) %>%
+   adorn_totals(where = c("row", "col")) %>%
+  as.data.frame()
+
+```
+
+```{r}
+d_coronet_preservation <- read_meta(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
+
+d_coronet_preservation %>%
+  tabyl(preservationMaterial, vial) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  as.data.frame()
+```
+
+
+
 
 
 
