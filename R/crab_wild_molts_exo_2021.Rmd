@@ -103,7 +103,7 @@ d_rosario_care %>%
 ```
 
 ```{r rosario-zoea-preserve-summary, tab.cap = "Preserve sample summary based on preservation csv file. Zoea_start are zoea preserved from the coolers at the beginnig of the experiment - they were never in chambers. Zoea_live and meg_live are crabs preseverd after they molted. It was assumed that the crabs marked Instar in the oringal preservation file molted to a later stage zoea and crabs marked Megalopae molted to megalopae. Discard_molts were the discarded exoskeletons after molting (marked either Molt or zoeaMOLT in the data sheet). Zoea_end are crabs that were alive at the end of the experiment but never molted.", tab.id = "preserve-summary"}
-d_rosario_preservation %>%
+s_rosario_preservation <- d_rosario_preservation %>%
   group_by(crabType,preserve_stage) %>%
   summarise(sum(n_individuals.per.Vial)) %>%
   arrange(crabType, match(preserve_stage, 
@@ -111,6 +111,7 @@ d_rosario_preservation %>%
                             "discard_molt", "zoea_end"))) %>%
   rename("total" = "sum(n_individuals.per.Vial)") %>%
   as.data.frame()
+s_rosario_preservation
 ```
 
 ```{r muk-meg-read-and-clean}
@@ -168,9 +169,10 @@ d_muk_meg_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_muk_net_pre
   filter(!is.na(lifeStage))
 
 #summarize life stages presereved
-d_muk_meg_preservation %>%
+s_muk_meg_preservation <- d_muk_meg_preservation %>%
   tabyl(lifeStage) %>%
   adorn_totals()
+s_muk_meg_preservation
 ```
 
 ```{r}
@@ -216,12 +218,18 @@ d_coronet_care %>%
 ```{r}
 d_coronet_preservation <- read_meta(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
 
-d_coronet_preservation %>%
+s_coronet_preservation <- d_coronet_preservation %>%
   tabyl(preservationMaterial, vial) %>%
   adorn_totals(where = c("row", "col")) %>%
   as.data.frame()
+s_coronet_preservation
 ```
 
+```{r}
+s_rosario_preservation
+s_muk_meg_preservation
+s_coronet_preservation
+```
 
 
 
