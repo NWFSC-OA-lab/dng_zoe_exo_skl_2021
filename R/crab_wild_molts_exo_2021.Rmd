@@ -115,6 +115,8 @@ s_rosario_preservation <- d_rosario_preservation %>%
 s_rosario_preservation
 ```
 
+
+
 ```{r muk-meg-read-and-clean}
 
 d_muk_meg_care_raw <- read_csv(here("data_raw", 
@@ -163,6 +165,20 @@ d_muk_meg_care %>%
   tabyl(fate, preserved) %>%
   adorn_totals(where = c("row", "col"))
 ```
+
+```{r}
+#summary table based on transfer sheet file
+d_muk_meg_NEW_care <- read.csv(here("data", "WellEventData.csv"))
+d_muk_meg_NEW_care$molt <- as.integer(d_muk_meg_NEW_care$molt)
+s_muk_meg_NEW_care <- d_muk_meg_NEW_care %>%
+  group_by(crabID %>%
+  summarise(sum(molt)) %>%
+    as.data.frame())
+
+s_muk_meg_NEW_care
+
+```
+
 
 ```{r muk-meg-preserve-read-summary}
 #read muk meg preservation file
