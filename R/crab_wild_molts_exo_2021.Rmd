@@ -21,6 +21,7 @@ library(tidyverse)
 library(janitor)
 library(officedown)
 library(metacsv)
+library(todor)
 ```
 
 ```{r rosaio-zoea-read-and-clean-collect-care}
@@ -167,15 +168,38 @@ d_muk_meg_care %>%
 ```
 
 ```{r}
+# CHANGED Danielle code edited by Paul on 2021.11.23
+
 #summary table based on transfer sheet file
-d_muk_meg_NEW_care <- read.csv(here("data", "WellEventData.csv"))
-d_muk_meg_NEW_care$molt <- as.integer(d_muk_meg_NEW_care$molt)
+
+#Danielle original
+# d_muk_meg_NEW_care <- read.csv(here("data", "WellEventData.csv"))
+# d_muk_meg_NEW_care$molt <- as.integer(d_muk_meg_NEW_care$molt)
+# s_muk_meg_NEW_care <- d_muk_meg_NEW_care %>%
+#   group_by(crabID %>%
+#   summarise(sum(molt)) %>%
+#     as.data.frame())
+# 
+# s_muk_meg_NEW_care
+
+#Paul revision
+# Turn out you don't have to explictly convert logical variable (molt) to 0/1,
+# if you do math on logical variable converson happens automatically
+#problem in origal code was not closing the parthensis in the group_by function call
+# you closed it after the as.data.frame call which is the wrong place.
+# group_by() is sort of invisible - it changes how functions that come after it, like summarize work, 
+# but you don't really see any difference in the dataframe running it by itself except for a hidden attribute.
+d_muk_meg_NEW_care <- read_csv(here("data", "WellEventData.csv"))
 s_muk_meg_NEW_care <- d_muk_meg_NEW_care %>%
-  group_by(crabID %>%
-  summarise(sum(molt)) %>%
-    as.data.frame())
+  group_by(crabID) %>%
+  summarise(molted = sum(molt)) %>%
+  tabyl(molted) %>%
+  adorn_totals() %>%
+  as.data.frame() %>%
+  {.}
 
 s_muk_meg_NEW_care
+
 
 ```
 
