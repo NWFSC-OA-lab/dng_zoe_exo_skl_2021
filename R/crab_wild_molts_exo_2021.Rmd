@@ -24,6 +24,10 @@ library(metacsv)
 library(todor)
 ```
 
+## Rosario Zoea
+
+There two data files (crab care and preservation).
+
 ```{r rosaio-zoea-read-and-clean-collect-care}
 
 #read the status key from the crab care file (first row of file)
@@ -75,7 +79,6 @@ d_rosario_collect <- read_csv(here("data_raw", "crab_zoea_exoskel_rosario_collec
 d_rosario <- full_join(d_rosario_care, d_rosario_collect, by = "crabID")
 
 
-
 ```
 
 ```{r rosaio-zoea-read-and-clean-preserve}
@@ -94,10 +97,12 @@ d_rosario_preservation <- read_csv(here("data_raw", "brachyura_zoe_preservationL
   {.}
 ```
 
-
 A few question about the data summary below. In Table \@ref(tab:preserve-summary), is the assumption that crabs labeled "Instar" molted to a later stage zoea? In Table \@ref(tab:preserve-summary), a total of 20 discarded molts were preserved but a total only 18 live zoea were preserved (zoea + megalopae) - what happened to the other live crab? In table \@ref(tab:fate-summary), there were 18 molted pea crab and 2 dungeness. However, in Table \@ref(tab:preserve-summary), 20 molts were preserved that were all labeled pea crab. There were also no dungeness preserved as live post-molt
 
 ```{r rosario-zoea-fate-summary-tab, tab.cap = "Summary of the fate of zoea from Rosario (round 1). During the experiment, zoea could 1) die before, 2) molt, in which case both the new stage zoea or megalope and the discarded exoskeleton were preserved in seperate vials, or 3) the zoea could remain alivee and unmolted at the end of the experinment , in which case they were preserved. CrabType is presumed (crabs have not been IDed to species).", tab.id = "fate-summary"}
+
+# FIXME Danielle and Paul get different output - should be same code and data- why???
+
 d_rosario_care %>%
   tabyl(crabType, fate) %>%
   adorn_totals(where = c("row", "col")) %>%
@@ -115,8 +120,6 @@ s_rosario_preservation <- d_rosario_preservation %>%
   as.data.frame()
 s_rosario_preservation
 ```
-
-
 
 ```{r muk-meg-read-and-clean}
 
@@ -200,9 +203,7 @@ s_muk_meg_NEW_care <- d_muk_meg_NEW_care %>%
 
 s_muk_meg_NEW_care
 
-
 ```
-
 
 ```{r muk-meg-preserve-read-summary}
 #read muk meg preservation file
@@ -271,10 +272,3 @@ s_rosario_preservation
 s_muk_meg_preservation
 s_coronet_preservation
 ```
-
-
-
-
-
-
-
