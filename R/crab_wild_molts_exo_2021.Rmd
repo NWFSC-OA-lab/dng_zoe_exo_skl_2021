@@ -258,7 +258,8 @@ d_coronet_care %>%
 ```
 
 ```{r}
-d_coronet_preservation <- read_meta(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
+d_coronet_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
+#d_coronet_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"), skip = 44)
 
 s_coronet_preservation <- d_coronet_preservation %>%
   tabyl(preservationMaterial, vial) %>%
