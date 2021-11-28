@@ -57,17 +57,17 @@ d_rosario_care <- d_rosario_care_raw %>%
   filter(if_any(everything(), ~ !is.na(.))) %>%
   mutate(crabID = paste(crabID, startLoc, sep = "_")) %>%
   select_if(function(x){!all(is.na(x))}) %>%
-  # mutate(fate = case_when(if_any(everything(), ~ . == "D") ~ "dead",
-  #                         if_any(everything(), ~ . == "L") ~ "lost",
-  #                         if_any(everything(), ~ . == "M") ~ "molt",
-  #                         if_any(everything(), ~ . == "R") ~ "removed",
-  #                         TRUE ~ "whatever")) %>%
-  mutate(fate = NA_character_, 
-    fate = if_else(if_any(everything(), ~ . == "D"),  "dead", fate),
-    fate = if_else(if_any(everything(), ~ . == "M"),  "molted", fate),
-    fate = if_else(if_any(everything(), ~ . == "L"),  "lost", fate),
-    fate = if_else(if_any(everything(), ~ . == "R"),  "removed", fate),
-    fate = if_else(is.na(fate), "alive_unmolted", fate)) %>%
+  mutate(fate = case_when(if_any(everything(), ~ . == "D") ~ "dead",
+                          if_any(everything(), ~ . == "L") ~ "lost",
+                          if_any(everything(), ~ . == "M") ~ "molt",
+                          if_any(everything(), ~ . == "R") ~ "removed",
+                          TRUE ~ "alive_unmolted")) %>%
+  # mutate(fate = NA_character_, 
+  #   fate = if_else(if_any(everything(), ~ . == "D"),  "dead", fate),
+  #   fate = if_else(if_any(everything(), ~ . == "M"),  "molted", fate),
+  #   fate = if_else(if_any(everything(), ~ . == "L"),  "lost", fate),
+  #   fate = if_else(if_any(everything(), ~ . == "R"),  "removed", fate),
+  #   fate = if_else(is.na(fate), "alive_unmolted", fate)) %>%
   {.}
 
 # Read in the collection and experiment start data
