@@ -160,7 +160,7 @@ d_muk_meg_care <- d_muk_meg_care_raw %>%
                                TRUE ~ "nothing")) %>%
   {.}
 
-write_csv(d_muk_meg_care, here("data", "d_muk_meg_care_clean.csv"))
+#write_csv(d_muk_meg_care, here("data", "d_muk_meg_care_clean.csv"))
 
 ```
 
