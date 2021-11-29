@@ -81,22 +81,6 @@ d_rosario <- full_join(d_rosario_care, d_rosario_collect, by = "crabID")
 
 ```
 
-```{r rosaio-zoea-read-and-clean-preserve}
-
-# read and recode the rosario perservation file
-d_rosario_preservation <- read_csv(here("data_raw", "brachyura_zoe_preservationLog_popvials_DANIELLE'S_NOTES.csv")) %>%
-  mutate(preserve_stage = case_when(preservationDate == "6/9/21" & lifeStage == "zoea" ~ "zoea_start",
-                                preservationDate == "6/23/21"  & lifeStage == "zoea" ~ "zoea_end",
-                                lifeStage == "zoea" ~ "zoea_live_post_molt",
-                                lifeStage == "megalopae" ~ "meg_live_post_molt",
-                                lifeStage == "Molt" | lifeStage == "zoeaMOLT" ~ "discard_molt",
-                                TRUE ~ NA_character_)) %>%
-  mutate(crabType = case_when(species == "brachyura_ssp." ~ "Pea",
-                              species == "C.magister" ~ "Dungeness",
-                              TRUE ~ NA_character_)) %>%
-  {.}
-```
-
 A few question about the data summary below. In Table \@ref(tab:preserve-summary), is the assumption that crabs labeled "Instar" molted to a later stage zoea? In Table \@ref(tab:preserve-summary), a total of 20 discarded molts were preserved but a total only 18 live zoea were preserved (zoea + megalopae) - what happened to the other live crab? In table \@ref(tab:fate-summary), there were 18 molted pea crab and 2 dungeness. However, in Table \@ref(tab:preserve-summary), 20 molts were preserved that were all labeled pea crab. There were also no dungeness preserved as live post-molt
 
 ```{r rosario-zoea-fate-summary-tab, tab.cap = "Summary of the fate of zoea from Rosario (round 1). During the experiment, zoea could 1) die before, 2) molt, in which case both the new stage zoea or megalope and the discarded exoskeleton were preserved in seperate vials, or 3) the zoea could remain alivee and unmolted at the end of the experinment , in which case they were preserved. CrabType is presumed (crabs have not been IDed to species).", tab.id = "fate-summary"}
@@ -107,6 +91,23 @@ d_rosario_care %>%
   tabyl(crabType, fate) %>%
   adorn_totals(where = c("row", "col")) %>%
   as.data.frame()
+```
+
+
+```{r rosaio-zoea-read-and-clean-preserve}
+
+# read and recode the rosario perservation file
+d_rosario_preservation <- read_csv(here("data_raw", "brachyura_zoe_preservationLog_popvials_DANIELLE'S_NOTES.csv")) %>%
+  mutate(preserve_stage = case_when(preservationDate == "6/9/2021" & lifeStage == "zoea" ~ "zoea_start",
+                                preservationDate == "6/23/2021"  & lifeStage == "zoea" ~ "zoea_end_unmolted",
+                                lifeStage == "zoea" ~ "zoea_live_post_molt",
+                                lifeStage == "megalopae" ~ "meg_live_post_molt",
+                                lifeStage == "Molt" | lifeStage == "zoeaMOLT" ~ "discard_molt",
+                                TRUE ~ NA_character_)) %>%
+  mutate(crabType = case_when(species == "brachyura_ssp." ~ "Pea",
+                              species %in% c("C.magister", "C. magister") ~ "Dungeness",
+                              TRUE ~ NA_character_)) %>%
+  {.}
 ```
 
 ```{r rosario-zoea-preserve-summary, tab.cap = "Preserve sample summary based on preservation csv file. Zoea_start are zoea preserved from the coolers at the beginnig of the experiment - they were never in chambers. Zoea_live and meg_live are crabs preseverd after they molted. It was assumed that the crabs marked Instar in the oringal preservation file molted to a later stage zoea and crabs marked Megalopae molted to megalopae. Discard_molts were the discarded exoskeletons after molting (marked either Molt or zoeaMOLT in the data sheet). Zoea_end are crabs that were alive at the end of the experiment but never molted.", tab.id = "preserve-summary"}
@@ -258,14 +259,13 @@ d_coronet_care %>%
 ```
 
 ```{r}
-d_coronet_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
-#d_coronet_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"), skip = 44)
+#d_coronet_preservation <- read_meta(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"))$data
+d_coronet_preservation <- read_csv(here("data_raw", "dng_meg_exoskel_coronet_preservation_2021_with_meta.csv"), skip = 44)
 
 s_coronet_preservation <- d_coronet_preservation %>%
   tabyl(preservationMaterial, vial) %>%
   adorn_totals(where = c("row", "col")) %>%
   as.data.frame()
-s_coronet_preservation
 ```
 
 ```{r}

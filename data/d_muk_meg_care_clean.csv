@@ -1,37 +1,37 @@
 crabID,6/28,6/30,7/1,7/5,7/6,7/7,7/8,7/12,7/13,7/14,fate,preserved_juv,preserved_discard,preserved_meg_end,preserved
 CH06_W6_73_wld_01,meg,M,meg,n/a,D,N/A,N/A,N/A,N/A,N/A,dead,FALSE,FALSE,FALSE,nothing
-CH06_W6_73_wld_02,meg,J,meg,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_73_wld_03,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_73_wld_04,meg,M,"Molt, Remove",NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_73_wld_05,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_91_wld_01,meg,M,meg,NA,meg,meg,meg,"Molt, R-(molt dissolved)",N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH06_W6_73_wld_02,meg,J,meg,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH06_W6_73_wld_03,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH06_W6_73_wld_04,meg,M,"Molt, Remove",NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH06_W6_73_wld_05,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH06_W6_91_wld_01,meg,M,meg,NA,meg,meg,meg,"Molt, R-(molt dissolved)",N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
 CH06_W6_91_wld_02,meg,M,meg,NA,meg,meg,meg,meg,meg,"R, removed &preserved",alive_unmolted,FALSE,FALSE,TRUE,meg_end
-CH06_W6_91_wld_03,meg,J,meg,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH06_W6_91_wld_03,meg,J,meg,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
 CH06_W6_91_wld_04,meg,M,meg,NA,meg,meg,meg,meg,meg,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_91_wld_05,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_91_wld_06,meg,M,"Molt, Remove",NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_130_wld_02,meg,M,meg,NA,meg,meg,meg,D,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_130_wld_03,meg,M,meg,NA,"Molt, Remove",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_130_wld_04,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_130_wld_06,meg,M,meg,NA,meg,"Molt, Removed",N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH06_W6_64_wld_01,meg,M,meg,NA,"Molt, Remove",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH06_W6_91_wld_05,meg,M,meg,NA,"Molt, R (molt dissolve)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH06_W6_91_wld_06,meg,M,"Molt, Remove",NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH06_W6_130_wld_02,meg,M,meg,NA,meg,meg,meg,D,N/A,N/A,dead,FALSE,FALSE,FALSE,nothing
+CH06_W6_130_wld_03,meg,M,meg,NA,"Molt, Remove",N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH06_W6_130_wld_04,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH06_W6_130_wld_06,meg,M,meg,NA,meg,"Molt, Removed",N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH06_W6_64_wld_01,meg,M,meg,NA,"Molt, Remove",N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
 CH06_W6_64_wld_02,meg,M,meg,NA,meg,meg,meg,meg,meg,"R, removed &preserved",alive_unmolted,FALSE,FALSE,TRUE,meg_end
-CH06_W6_64_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH06_W6_64_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
 CH06_W6_64_wld_04,meg,M,meg,NA,meg,meg,meg,meg,meg,"R, removed &preserved",alive_unmolted,FALSE,FALSE,TRUE,meg_end
 CH06_W6_64_wld_06,R,NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,removed,FALSE,FALSE,FALSE,nothing
-CH07_W6_93_wld_02,meg,J,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_93_wld_03,meg,M,meg,NA,meg,meg,meg,D,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH07_W6_93_wld_02,meg,J,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH07_W6_93_wld_03,meg,M,meg,NA,meg,meg,meg,D,N/A,N/A,dead,FALSE,FALSE,FALSE,nothing
 CH07_W6_93_wld_04,meg,M,meg,NA,meg,meg,meg,meg,meg,"R, removed &preserved",alive_unmolted,FALSE,FALSE,TRUE,meg_end
-CH07_W6_93_wld_06,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_109_wld_02,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_109_wld_03,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_109_wld_05,meg,J,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_109_wld_06,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH07_W6_93_wld_06,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH07_W6_109_wld_02,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH07_W6_109_wld_03,meg,M,meg,NA,"Molt, R-(molt dissolved)",N/A,N/A,N/A,N/A,N/A,molted,TRUE,FALSE,FALSE,juv_only
+CH07_W6_109_wld_05,meg,J,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH07_W6_109_wld_06,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
 CH07_W6_92_wld_01,R,NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,removed,FALSE,FALSE,FALSE,nothing
-CH07_W6_92_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_92_wld_04,meg,M,meg,NA,meg,"Molt, Removed",N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_92_wld_06,NA,D,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_121_wld_01,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH07_W6_92_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH07_W6_92_wld_04,meg,M,meg,NA,meg,"Molt, Removed",N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH07_W6_92_wld_06,NA,D,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,dead,FALSE,FALSE,FALSE,nothing
+CH07_W6_121_wld_01,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
 CH07_W6_121_wld_02,meg,M,meg,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_121_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
-CH07_W6_121_wld_04,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,alive_unmolted,FALSE,FALSE,FALSE,nothing
+CH07_W6_121_wld_03,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
+CH07_W6_121_wld_04,"M, R",NA,N/A,NA,N/A,N/A,N/A,N/A,N/A,N/A,molted,TRUE,TRUE,FALSE,juv_and_discard
