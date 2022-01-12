@@ -1,0 +1,49 @@
+---
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../output_word") })
+title: "Gravid Female Crab Collection Report 2021-2022"
+output:
+  officedown::rdocx_document:
+    reference_docx: word_style_ref_01.docx
+editor_options:
+  chunk_output_type: console
+#bibliography: references.bib
+bibliography: references.bib
+---
+
+```{r knitter_options, include = FALSE}
+# chunk header include = FALSE supresses code in the Word output
+# chunk options supress warnings, messages and output in the Word output
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE)
+```
+
+
+```{r libraries}
+library(ggplot2)
+library(here)
+library(knitr)
+library(tidyverse)
+library(officedown)
+```
+
+
+```{r source}
+# use for length-weight plot
+crabSize <- read_csv(here("data", "Mom size data.csv"))
+```
+
+## Crab collection Report
+
+On 14 December, members of the Tulalip Tribe set 20 pots at varying depths and left them to soak overnight. On Wednesday, 15 December, Danielle Perez went out with Max Lundquist and Sam Kaiser, two members of the tribe’s natural resources department. The boat launched from Tulalip Marina around 10 am and all pots were pulled in about 2 hours. Unfortunately, only four gravid females were caught in these pots. However, a local crabber named Dennis saw us returning to the marina and inquired if we would like him to keep any gravid females he collected in his traps. We were able to coordinate with him and picked up 15 crabs he had temporarily held in a garbage can. 
+
+All crabs were held in large coolers full of seawater collected from the boat. These coolers also contained ice packs and bubblers to keep them appropriately cool and aerated for the drive. Upon arrival back at the marina, the coolers were transferred to the bed of a truck and strapped in in order to remain secure. Danielle drove the crabs back to the NWFSC at Montlake and transferred the truck to Michael Maher, who took them the rest of the way to the NOAA Manchester facility. Here, they were put into their new homes—“crabitats.” These are 5 gallon buckets with holes drilled into the sides, bottom, and corresponding lids. Large mesh covers the holes on the side to prevent escape and promote water flow. Finer mesh on the bottom keeps the sand placed in each crabitat for the females to burrow from leaking out. 
+
+Mike placed each crab in its own crabitat and they were allowed to acclimate undisturbed for a few days. On Friday, 17 December, both Mike and Danielle checked on the crabs and they were fed pieces of squid. On 20 December, the crabs were weighed, measured and photographed to assess egg mass quality. After this, inclement weather and holiday travel made it difficult to get to the crabs more than once over the course of the next few weeks. At that start of the new year, however, the crabs were fed and checked twice a week for mortality and hatching. Salinity and temperature readings were taken regularly, and samples were taken for spectrophotometric and alkalinity analysis at least once during their stay. 
+
+```{r plot size data}
+ggplot(crabSize, aes(Length,Weight)) + geom_point() +
+  ggtitle("Gravid Female Sizes") + xlab("Carapace Length (mm)") + ylab("Weight (g)")
+
+#It would be cool if I could color by egg mass color...but I think it would be very confusing if I can't make the legend colors match the egg mass colors. 
+```
+
